@@ -1,4 +1,3 @@
-import pytest
 from metric_aggregation import MetricAggregation
 
 def test_simple_case():
