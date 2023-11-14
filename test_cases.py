@@ -119,3 +119,34 @@ def test_delete_event():
             'std_dev': 0.0
         }
     }
+
+def test_wrong_action():
+    metric_aggregation_wrong_action = MetricAggregation()
+    try:
+        metric_aggregation_wrong_action.handle_event(event={
+            'action': 'wrong',
+            'variable': 'foo',
+            'value': 0
+        },context={})
+    except Exception as e:
+        assert type(e).__name__ == 'InvalidActionException'
+
+def test_missing_value():
+    metric_aggregation_missing_value = MetricAggregation()
+    try:
+        metric_aggregation_missing_value.handle_event(event={
+            'action': 'insert',
+            'variable': 'foo',
+        },context={})
+    except Exception as e:
+        assert type(e).__name__ == 'MissingValueException'
+
+def test_missing_old_value():
+    metric_aggregation_missing_old_value = MetricAggregation()
+    try:
+        metric_aggregation_missing_old_value.handle_event(event={
+            'action': 'delete',
+            'variable': 'foo',
+        },context={})
+    except Exception as e:
+        assert type(e).__name__ == 'MissingOldValueException'
