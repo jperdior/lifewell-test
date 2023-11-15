@@ -1,5 +1,6 @@
 from value_objects import EventValueObject
 from equations import Equations
+import logging
 
 
 class MetricAggregation:
@@ -12,10 +13,13 @@ class MetricAggregation:
         if event.variable not in self.variables:
             self.new_variable(event.variable)
         if event.action == 'insert':
+            logging.info(f"Handling insert event: {event}")
             self.handle_insert_event(event)
         elif event.action == 'delete':
+            logging.info(f"Handling delete event: {event}")
             self.handle_delete_event(event)
         elif event.action == 'modify':
+            logging.info(f"Handling modify event: {event}")
             self.handle_modify_event(event)
         
 
