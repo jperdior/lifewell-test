@@ -1,6 +1,11 @@
 from pydantic import BaseModel, field_validator, ValidationInfo
-from exceptions import (InvalidActionException, MissingValueException, MissingOldValueException)
+from .exceptions import (
+    InvalidActionException,
+    MissingValueException,
+    MissingOldValueException,
+)
 from typing import Optional
+
 
 class EventValueObject(BaseModel):
     action: str
@@ -13,13 +18,13 @@ class EventValueObject(BaseModel):
         if v not in ["insert", "delete", "modify"]:
             raise InvalidActionException()
         return v
-    
+
     @field_validator("value")
     def validate_value(cls, value: int, info: ValidationInfo) -> int:
         if info.data["action"] in ["insert", "modify"] and value is None:
             raise MissingValueException()
         return value
-    
+
     @field_validator("old_value")
     def validate_old_value(cls, v, info: ValidationInfo) -> int:
         if info.data["action"] in ["delete", "modify"] and v is None:

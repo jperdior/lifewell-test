@@ -1,4 +1,4 @@
-from metric_aggregation import MetricAggregation
+from zurich_test.metric_aggregation import MetricAggregation
 
 
 def test_simple_case():

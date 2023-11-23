@@ -1,5 +1,5 @@
-from value_objects import EventValueObject
-from equations import Equations
+from .value_objects import EventValueObject
+from .equations import Equations
 import logging
 
 
@@ -16,7 +16,7 @@ class MetricAggregation:
                 old_value=event.get("old_value"),
             )
         except Exception as e:
-            #event should go to an error queue
+            # event should go to an error queue
             logging.error(f"Invalid event: {event}, {e}")
             return
         if event_object.variable not in self.variables:
