@@ -19,3 +19,9 @@ To run the linter
 ```bash
 make lint
 ```
+
+To run the typechecker
+
+```bash
+make typecheck
+```
