@@ -2,6 +2,20 @@
 
 ### Useful commands
 
-'''
-make init to initialize the project
-'''
+To start the application:
+
+```bash
+make init
+```
+
+To run tests:
+
+```bash
+make tests
+```
+
+To run the linter
+
+```bash
+make lint
+```

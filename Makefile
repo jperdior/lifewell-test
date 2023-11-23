@@ -7,7 +7,7 @@ run:
 lint:
 	poetry run black src
 
-test:
+tests:
 	poetry run pytest
 
 typecheck:
