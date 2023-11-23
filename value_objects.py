@@ -1,15 +1,27 @@
-from exceptions import InvalidActionException, MissingValueException, MissingOldValueException
+from pydantic import BaseModel, field_validator, ValidationInfo
+from exceptions import (InvalidActionException, MissingValueException, MissingOldValueException)
+from typing import Optional
 
-class EventValueObject:
+class EventValueObject(BaseModel):
+    action: str
+    variable: str
+    value: Optional[int] = None
+    old_value: Optional[int] = None
 
-    def __init__(self, action: str, variable: str,value: int = None, old_value: int = None):
-        if action not in ['insert', 'delete','modify']:
+    @field_validator("action")
+    def validate_action(cls, v: str) -> str:
+        if v not in ["insert", "delete", "modify"]:
             raise InvalidActionException()
-        self.action = action
-        if action in ['insert','modify'] and value is None:
+        return v
+    
+    @field_validator("value")
+    def validate_value(cls, value: int, info: ValidationInfo) -> int:
+        if info.data["action"] in ["insert", "modify"] and value is None:
             raise MissingValueException()
-        self.value = value
-        if action in ['delete','modify'] and old_value is None:
+        return value
+    
+    @field_validator("old_value")
+    def validate_old_value(cls, v, info: ValidationInfo) -> int:
+        if info.data["action"] in ["delete", "modify"] and v is None:
             raise MissingOldValueException()
-        self.old_value = old_value
-        self.variable = variable
+        return v
